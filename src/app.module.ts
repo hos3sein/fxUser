@@ -17,6 +17,9 @@ import { EmailService } from './email/email.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { MulterModule } from '@nestjs/platform-express';
 
+
+// ConfigService.rootPath = path.resolve(__dirname, '..');
+
 @Module({
   imports: [ MulterModule.register({ dest: './uploads' }) , MailerModule.forRoot({
     transport: {
@@ -29,7 +32,7 @@ import { MulterModule } from '@nestjs/platform-express';
       },
     },
   })
-    ,ConfigModule.forRoot({isGlobal : true}) , MongooseModule.forRoot(process.env.MONGO_CONNECTION_STRING),
+    ,ConfigModule.forRoot({envFilePath: 'config.env',isGlobal : true}) , MongooseModule.forRoot(process.env.MONGO_CONNECTION_STRING),
     MongooseModule.forFeature([{ name: 'user', schema: UserSchema }]),
     MessagingModule,
     UserModule,
