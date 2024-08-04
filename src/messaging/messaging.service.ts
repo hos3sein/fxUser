@@ -46,15 +46,14 @@ export class MessagingService {
       // await channel.assertQueue('signal', { durable: true });                    // assert the queu
       await channel.consume('getUserData', async (message) => {   
         const userId = JSON.parse(message.content.toString())
-        // console.log(userId)
+        console.log( 'data sent for signal ... ', userId)
         channel.ack(message);
         const userData = await this.userModel.findById(userId)
-        console.log('recieved user data')
+        console.log('sent user data ...')
         await this.channelWrapper.sendToQueue(
           'responseForGetUserData',
           Buffer.from(JSON.stringify({userData : userData})),
         );   
-
     })})
   }
 
